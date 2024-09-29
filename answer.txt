@@ -1,0 +1,89 @@
+1.What happens if users choose “Cancel”?
+
+    When a user clicks the "Cancel" button in the JOptionPane.showConfirmDialog, the method returns JOptionPane.CANCEL_OPTION. In your current code, this is not explicitly handled, so the program would display "You've chosen: No" because the condition checks only for YES_OPTION and defaults to "No" otherwise. Here's how it evaluates:
+
+        - YES_OPTION: Displays "You've chosen: Yes".
+        - NO_OPTION: Displays "You've chosen: No".
+        - CANCEL_OPTION: Displays "You've chosen: No".
+
+    To handle the "Cancel" option properly, you can add an additional check. Here’s an updated version of the code:
+
+```java
+import javax.swing.JOptionPane;
+
+public class ChoosingOption {
+
+    public static void main(String[] args) {
+        int option = JOptionPane.showConfirmDialog(null, "Do you want to change to the first class ticket?");
+
+        String message;
+        switch (option) {
+            case JOptionPane.YES_OPTION:
+                message = "You've chosen: Yes";
+                break;
+            case JOptionPane.NO_OPTION:
+                message = "You've chosen: No";
+                break;
+            case JOptionPane.CANCEL_OPTION:
+                message = "You've chosen: Cancel";
+                break;
+            default:
+                message = "No option selected";
+                break;
+        }
+
+        JOptionPane.showMessageDialog(null, message);
+        System.exit(0);
+    }
+}
+```
+
+-----***-----
+
+2.How to customize the options for users?
+
+    To customize the buttons shown in the confirmation dialog, you can use JOptionPane.showOptionDialog. This allows you to specify your own button texts. Here’s an example of how to do this:
+
+```java
+import javax.swing.JOptionPane;
+
+public class ChoosingOption {
+
+    public static void main(String[] args) {
+        String[] options = {"I do", "I don't"};
+        int option = JOptionPane.showOptionDialog(null, 
+                "Do you want to change to the first class ticket?", 
+                "Choose an Option", 
+                JOptionPane.YES_NO_OPTION, 
+                JOptionPane.QUESTION_MESSAGE, 
+                null, 
+                options, 
+                options[0]);
+
+        String message;
+        switch (option) {
+            case 0: // "I do"
+                message = "You've chosen: I do";
+                break;
+            case 1: // "I don't"
+                message = "You've chosen: I don't";
+                break;
+            case JOptionPane.CLOSED_OPTION:
+                message = "Dialog was closed";
+                break;
+            default:
+                message = "No option selected";
+                break;
+        }
+
+        JOptionPane.showMessageDialog(null, message);
+        System.exit(0);
+    }
+}
+```
+
+    Key Changes in the Customized Example:
+    
+        - Custom Options: The options array contains your custom button texts ("I do" and "I don't").
+        - Using showOptionDialog: This method allows specifying custom button texts and gives more control over the dialog's appearance.
+        - Handling Closure: The switch statement handles the case where the dialog is closed without a selection.
